@@ -2,6 +2,7 @@ import * as ex from 'excalibur';
 import { LevelOne } from './scenes/level-one/level-one';
 import { Player } from './actors/player/player';
 import { Resources } from './resources';
+import { Physics, CollisionResolutionStrategy } from 'excalibur';
 
 class Game extends ex.Engine {
   constructor() {
@@ -20,6 +21,10 @@ class Game extends ex.Engine {
   }
 }
 
+Physics.useRigidBodyPhysics();/*
+Physics.collisionResolutionStrategy = CollisionResolutionStrategy.RigidBody;
+Physics.enabled = true;
+Physics.allowRigidBodyRotation = true;*/
 const game = new Game();
 
 let loader = new ex.Loader();

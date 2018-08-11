@@ -1,8 +1,9 @@
 import * as ex from 'excalibur';
-const sword = require('./images/sword.png');
 
 let Resources = {
-    Sword: new ex.Texture(sword)
+    Sword: new ex.Texture(require('./images/sword.png')),
+    SpeechBubble: new ex.Texture(require('./images/speech.png')),
+    Rocket: new ex.Texture(require('./images/rocket.png')),
 }
 
 export { Resources }
