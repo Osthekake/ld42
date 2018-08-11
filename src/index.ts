@@ -5,7 +5,14 @@ import { Resources } from './resources';
 
 class Game extends ex.Engine {
   constructor() {
-    super({ width: 800, height: 600, displayMode: ex.DisplayMode.FullScreen });
+    super({ width: 1200, height: 800, displayMode: ex.DisplayMode.Fixed });
+    const levelOne = new LevelOne();
+    const player = new Player();
+    
+    levelOne.add(player);
+    
+    this.add('levelOne', levelOne);
+    
   }
 
   public start(loader: ex.Loader) {
@@ -14,14 +21,6 @@ class Game extends ex.Engine {
 }
 
 const game = new Game();
-const levelOne = new LevelOne();
-const player = new Player();
-player.addDrawing(Resources.Sword);
-
-levelOne.add(player);
-
-game.add('levelOne', levelOne);
-
 
 let loader = new ex.Loader();
 for (let key in Resources) {
