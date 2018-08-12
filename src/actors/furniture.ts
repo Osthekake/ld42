@@ -63,9 +63,14 @@ export class Furniture extends ex.Actor implements Startable {
   }
 
   inGoal(){
-    this.stop();
-    this.kill();
-    this.isInGoal = true;
-    console.log('in goal!')
+    if (!this.isInGoal) {
+      this.isInGoal = true;
+      setTimeout(() => {
+        this.stop();
+        this.kill();
+        console.log('gone')
+      }, 1000);
+      console.log('in goal!')
+    }
   }
 }

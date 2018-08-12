@@ -1,14 +1,12 @@
 import * as ex from 'excalibur';
-import { Brick } from '../../actors/brick';
-import { Color, Actor, Vector } from 'excalibur';
-import { Tile } from '../../actors/tile';
-import { Textures } from '../../resources';
-import { Furniture } from '../../actors/furniture';
-import { WSASYSCALLFAILURE } from 'constants';
-import { Thruster } from '../../actors/thruster';
-import { StartButton } from '../../actors/ui/startbutton';
-import { Startable } from '../../actors/startable';
-import { Goal } from './goal';
+import { Color, Actor, Vector, Timer } from 'excalibur';
+import { Tile } from '../actors/tile';
+import { Textures } from '../resources';
+import { Furniture } from '../actors/furniture';
+import { Thruster, Attachment } from '../actors/thruster';
+import { StartButton } from '../actors/ui/startbutton';
+import { Startable } from '../actors/startable';
+import { Goal } from '../actors/goal';
 
 export interface LevelData{
   walls: {
@@ -23,9 +21,13 @@ export interface LevelData{
     texture: string;
     x: number;
     y: number;
+    boosters: {
+      texture: string;
+      attachment: Attachment;
+      offset?: number;
+    }[];
   }[];
-
-  boosters?: string[];
+  
   goal: {
     x: number;
     y: number;
@@ -43,7 +45,7 @@ export class Level extends ex.Scene implements Startable{
   private goal: Goal;
   private startButton: StartButton;
 
-  constructor(private levelData: LevelData) {
+  constructor(public levelData: LevelData) {
     super();
   }
   
@@ -74,12 +76,14 @@ export class Level extends ex.Scene implements Startable{
     this.goal = new Goal(this.levelData.goal.x*50, this.levelData.goal.y*50, new Vector(this.levelData.goal.scale, this.levelData.goal.scale));
     this.add(this.goal);
   }
+
   public onActivate() {
     this.reinitializeFurniture();
     this.isRunning = false;
     this.startButton.isReset = true;
     this.startButton.isRunning = false;
   }
+
   public onDeactivate() {
     this.isRunning = false;
     this.startButton.reset();
@@ -89,9 +93,16 @@ export class Level extends ex.Scene implements Startable{
     this.levelData.furniture.forEach(furnitureItem => {
       const t = new Furniture(furnitureItem.x*50, furnitureItem.y*50, Textures[furnitureItem.texture]);
       this.furniture.push(t);
+      furnitureItem.boosters.forEach(boost => {
+        const thruster = new Thruster(Textures[boost.texture], boost.attachment);
+        if (boost.offset) {
+          thruster.rotation = boost.offset;
+          thruster.pos = thruster.pos.rotate(boost.offset);
+        }
+        t.addThruster(thruster);
+      });
       this.add(t);
     });
-    this.furniture[0].addThruster(new Thruster(Textures.SmallThruster));
   }
 
   reinitializeFurniture(){
@@ -101,22 +112,29 @@ export class Level extends ex.Scene implements Startable{
     });
     this.furniture = [];
     this.loadFurniture();
-    
+    this.endTimer = undefined;
   }
   
   start(): void {
     this.furniture.forEach(element => element.start()); 
     this.isRunning = true;
   }
+
   stop(): void {
     this.furniture.forEach(element => element.stop());
     this.isRunning = false; 
   }
+
+  private endTimer: Timer;
+
   update(engine, delta){
     super.update(engine, delta)
-    if (this.furniture.every(f => f.isInGoal)){
+    if (!this.endTimer && this.furniture.every(f => f.isInGoal)){
       console.log('level complete');
-      engine.goToScene(this.levelData.next);
+      setTimeout(() => {
+        console.log('next level');
+        engine.goToScene(this.levelData.next);
+      }, 1500);
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Vector } from "../../node_modules/excalibur";
+import { Vector } from "excalibur";
 
 export function vectorDifference(a: Vector, b: Vector): Vector {
     const dX = a.x - b.x;

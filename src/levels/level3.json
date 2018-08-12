@@ -31,9 +31,17 @@
     ],
     "furniture": [
         {
-            "texture": "TV",
-            "x": 4,
-            "y": 14
+            "texture": "Sofa",
+            "x": 6,
+            "y": 14,
+            "boosters": [{
+                "texture": "RadialThruster",
+                "attachment": "radial_clockwise"
+            },{
+                "texture": "RadialThruster",
+                "attachment": "radial_counterClockwise",
+                "offset": 3.14
+            }]
         }
     ],
     "goal": {
@@ -41,5 +49,5 @@
         "y": 8, 
         "scale": 1
     },
-    "next": "Level1"
+    "next": "Level4"
 }

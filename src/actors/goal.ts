@@ -1,5 +1,5 @@
 import * as ex from 'excalibur';
-import { Textures } from '../../resources';
+import { Textures } from '../resources';
 
 export class Goal extends ex.Actor {
     constructor(x: number, y: number, scale: ex.Vector) {
@@ -10,8 +10,8 @@ export class Goal extends ex.Actor {
         const tex = Textures.Goal;
         this.addDrawing(tex);
         this.addCollisionGroup('furniture');
-        this.setWidth(tex.width/3);
-        this.setHeight(tex.height/3);
+        this.setWidth(tex.width/2);
+        this.setHeight(tex.height/2);
     }
 
     onInitialize(engine: ex.Engine) {

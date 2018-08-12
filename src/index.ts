@@ -1,6 +1,5 @@
 import * as ex from 'excalibur';
-import { Level } from './scenes/level/level';
-import { Player } from './actors/player/player';
+import { Level } from './levels/level';
 import { Textures, Levels } from './resources';
 import { Physics, CollisionResolutionStrategy } from 'excalibur';
 
@@ -31,6 +30,6 @@ for (let key in Textures) {
 }
 
 game.start(loader).then(() => {
-  game.goToScene('Level1');
+  game.goToScene('Level5');
   
 });

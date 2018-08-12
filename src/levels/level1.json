@@ -26,7 +26,11 @@
         {
             "texture": "TV",
             "x": 4,
-            "y": 14
+            "y": 14,
+            "boosters": [{
+                "texture": "SmallThruster",
+                "attachment": "linear"
+            }]
         }
     ],
     "goal": {

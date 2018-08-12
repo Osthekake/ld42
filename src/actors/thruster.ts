@@ -1,26 +1,40 @@
 import * as ex from 'excalibur';
-import { Vector } from 'excalibur';
+import { Vector, SpriteSheet } from 'excalibur';
 import { vectorDifference } from '../util/util';
 import { Startable } from './startable';
 
 export type Attachment = 'linear' | 'radial_clockwise' | 'radial_counterClockwise';
-const MAX_ATTACHMENT_RADIUS = 100;
+const MAX_ATTACHMENT_RADIUS = 70;
 
 export class Thruster extends ex.Actor implements Startable {
 
   private emitter: ex.ParticleEmitter;
-  readonly emitterOffset = new Vector(10, 0);
+  readonly emitterOffset;
   readonly thrust = new Vector(-150, 0);
 
   public isRunning: boolean = false;
   private isDragging: boolean = false;
 
-  constructor(texture: ex.Texture, private attachment: Attachment = 'linear') {
-    super(100, 0, texture.width, texture.height);
-    this.addDrawing(texture);
+  constructor(private texture: ex.Texture, private attachment: Attachment = 'linear') {
+    super(50, 0, texture.width, texture.height);
+    
     this.collisionType = ex.CollisionType.Active;
+    
+    switch (this.attachment) {
+      case 'linear': {
+        this.emitterOffset = new Vector(10, 0);
+        break;
+      }
+      case 'radial_clockwise': {
+        this.emitterOffset = new Vector(25, -5);
+        break;
+      }
+      case 'radial_counterClockwise': {
+        this.emitterOffset = new Vector(25, 5);
+        break;
+      }
+    }
   }
-
 
   updateAttachment(placement: Vector) {
     this.pos = placement.clone();
@@ -42,6 +56,13 @@ export class Thruster extends ex.Actor implements Startable {
   }
 
   onInitialize(engine: ex.Engine) {
+    const spriteSheet = new SpriteSheet(this.texture, 1, 1, this.texture.width, this.texture.height);
+    const animation = spriteSheet.getAnimationForAll(engine, 125);
+    
+    this.addDrawing('idle', animation);
+    //animation.flipHorizontal = this.attachment === 'radial_counterClockwise';
+    animation.flipVertical = this.attachment === 'radial_counterClockwise';
+
     this.enableCapturePointer = true;
     this.on('pointerdown', () => this.isDragging = true);
     this.on('pointerdragend', () => this.isDragging = false);
@@ -99,7 +120,18 @@ export class Thruster extends ex.Actor implements Startable {
   }
 
   public getTorque(): number {
-    return Math.sin(this.totalAngle()) * 100;
+    switch (this.attachment) {
+      case 'linear': {
+        return Math.sin(this.totalAngle()) * 100;
+      }
+      case 'radial_clockwise': {
+        return this.getThrust().magnitude() * this.pos.magnitude() * -1;
+      }
+      case 'radial_counterClockwise': {
+        return this.getThrust().magnitude() * this.pos.magnitude();
+      }
+    }
+    
   }
 
   public update(engine: ex.Engine, delta: number) {

@@ -1,7 +1,7 @@
 import * as ex from 'excalibur';
-import { Textures } from '../../resources';
+import { Textures } from '../resources';
 import { Line, Vector } from 'excalibur';
-import { SpeechBubble } from '../speechbubble';
+import { SpeechBubble } from './speechbubble';
 
 export class Player extends ex.Actor {
 

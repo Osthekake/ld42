@@ -1,6 +1,6 @@
 import * as ex from 'excalibur';
 import { UIActor } from 'excalibur';
-import { Level } from '../../scenes/level/level';
+import { Level } from '../../levels/level';
 import { Startable } from '../startable';
 import { Textures } from '../../resources';
 
@@ -11,8 +11,8 @@ export class StartButton extends UIActor implements Startable{
     
   constructor(private level: Level){
     super({
-      x: 1000,
-      y: 650,
+      x: 1025,
+      y: 625,
     });
     const tex = Textures.Button;
     this.addDrawing(tex);
@@ -44,17 +44,20 @@ export class StartButton extends UIActor implements Startable{
         }
     }
   }
+
   start(): void {
     this.isRunning = true;
     this.isReset = false;
     this.label.text = 'Cut engines';
     this.level.start();
   }
+
   stop(): void {
     this.isRunning = false;
     this.label.text = 'Reset level';
     this.level.stop();
   }
+
   reset(){
       this.isReset = true;
     this.label.text = 'Ignition!';
