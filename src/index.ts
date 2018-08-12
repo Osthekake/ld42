@@ -30,6 +30,6 @@ for (let key in Textures) {
 }
 
 game.start(loader).then(() => {
-  game.goToScene('Level5');
+  game.goToScene('Level1');
   
 });
