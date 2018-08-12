@@ -15,18 +15,18 @@ export class WinLevel extends Level implements Startable{
   public onInitialize(engine: ex.Engine) {
     super.onInitialize(engine);
     
+    this.add(new Rocket())
   }
 
   public onActivate() {
     super.onActivate();
 
-    this.add(new Rocket())
   }
+
 
   completed(engine){
     const goalInfo = new SpeechBubble("well done!");
     goalInfo.setParentPos(this.goal.pos);
     this.add(goalInfo);
-    super.completed(engine);
   }
 }
