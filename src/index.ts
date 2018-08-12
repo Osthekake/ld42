@@ -1,21 +1,19 @@
 import * as ex from 'excalibur';
-import { LevelOne } from './scenes/level-one/level-one';
+import { Level } from './scenes/level/level';
 import { Player } from './actors/player/player';
-import { Resources } from './resources';
+import { Textures, Levels } from './resources';
 import { Physics, CollisionResolutionStrategy } from 'excalibur';
 
 class Game extends ex.Engine {
   constructor() {
     super({ width: 1200, height: 800, displayMode: ex.DisplayMode.Fixed });
-    const levelOne = new LevelOne();
-    const player = new Player();
-    
-    levelOne.add(player);
-    
-    this.add('levelOne', levelOne);
-    
+    for (let key in Levels) {
+      let value = Levels[key];
+      const level = new Level(value);
+      this.add(key, level);
+    }
   }
-
+  
   public start(loader: ex.Loader) {
     return super.start(loader);
   }
@@ -28,10 +26,11 @@ Physics.allowRigidBodyRotation = true;*/
 const game = new Game();
 
 let loader = new ex.Loader();
-for (let key in Resources) {
-  loader.addResource(Resources[key]);
+for (let key in Textures) {
+  loader.addResource(Textures[key]);
 }
 
 game.start(loader).then(() => {
-  game.goToScene('levelOne');
+  game.goToScene('Level1');
+  
 });

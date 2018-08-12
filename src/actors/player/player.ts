@@ -1,5 +1,5 @@
 import * as ex from 'excalibur';
-import { Resources } from '../../resources';
+import { Textures } from '../../resources';
 import { Line, Vector } from 'excalibur';
 import { SpeechBubble } from '../speechbubble';
 
@@ -18,7 +18,7 @@ export class Player extends ex.Actor {
   constructor() {
     super(100, 100, 110, 50);
     this.scale.setTo(0.1, 0.1);
-    this.addDrawing(Resources.Rocket);
+    this.addDrawing(Textures.Rocket);
     this.collisionType = ex.CollisionType.Active;
   }
 

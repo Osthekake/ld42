@@ -1,5 +1,5 @@
 import * as ex from 'excalibur';
-import { Resources } from '../resources';
+import { Textures } from '../resources';
 import { Vector, SpriteSheet, Engine } from 'excalibur';
 
 export class SpeechBubble extends ex.Actor {
@@ -28,13 +28,14 @@ export class SpeechBubble extends ex.Actor {
   }
 
   onInitialize(engine: Engine) {
-    const spriteSheet = new SpriteSheet(Resources.SpeechBubble, 1, 1, 1263, 903);
+    const spriteSheet = new SpriteSheet(Textures.SpeechBubble, 1, 1, 1263, 903);
     this.animation = spriteSheet.getAnimationForAll(engine, 125);
     
     this.addDrawing('idle', this.animation);
-    this.setHeight(Resources.SpeechBubble.height);
-    this.setWidth(Resources.SpeechBubble.width);
+    this.setHeight(Textures.SpeechBubble.height);
+    this.setWidth(Textures.SpeechBubble.width);
     this.animation.scale.setTo(0.4, 0.3);
+    this.z = 100;
     this.scale.setTo(0.4, 0.3);
   }
 
