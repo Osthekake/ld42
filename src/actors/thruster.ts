@@ -53,6 +53,7 @@ export class Thruster extends ex.Actor implements Startable {
       }
     }
     // console.log('placement radius', placement.magnitude());
+    // console.log(this.pos, this.getWidth(), this.getHeight());
   }
 
   onInitialize(engine: ex.Engine) {
@@ -60,12 +61,16 @@ export class Thruster extends ex.Actor implements Startable {
     const animation = spriteSheet.getAnimationForAll(engine, 125);
     
     this.addDrawing('idle', animation);
-    //animation.flipHorizontal = this.attachment === 'radial_counterClockwise';
     animation.flipVertical = this.attachment === 'radial_counterClockwise';
 
     this.enableCapturePointer = true;
-    this.on('pointerdown', () => this.isDragging = true);
-    this.on('pointerdragend', () => this.isDragging = false);
+    this.on('pointerdown', () => {
+      this.isDragging = true;
+      engine.input.pointers.primary.once('down', () => {
+        //console.log('once down');
+        this.isDragging = false;
+      });
+    });
 
     this.emitter = new ex.ParticleEmitter({
       emitterType: ex.EmitterType.Circle, // Shape of emitter nozzle
@@ -91,16 +96,6 @@ export class Thruster extends ex.Actor implements Startable {
     engine.add(this.emitter);
   }
 
-  private angularAbs(angle: number): number {
-    while (angle < 0) {
-      angle += Math.PI * 2;
-    }
-    while (angle > Math.PI * 2) {
-      angle -= Math.PI * 2;
-    }
-    return angle;
-  }
-
   public start(){
     this.isRunning = true;
     this.emitter.isEmitting = true;
@@ -122,7 +117,7 @@ export class Thruster extends ex.Actor implements Startable {
   public getTorque(): number {
     switch (this.attachment) {
       case 'linear': {
-        return Math.sin(this.totalAngle()) * 100;
+        return Math.cos(this.totalAngle()) * -100;
       }
       case 'radial_clockwise': {
         return this.getThrust().magnitude() * this.pos.magnitude() * -1;
@@ -136,13 +131,14 @@ export class Thruster extends ex.Actor implements Startable {
 
   public update(engine: ex.Engine, delta: number) {
     super.update(engine, delta);
-   // console.log(this.isDragging);
+    // console.log(this.isDragging);
     
+    /*if (engine.input.pointers.primary.lastWorldPos) {
+      console.log(engine.input.pointers.primary.isActorUnderPointer(this));
+    }*/
+
     if (this.isRunning) {
-      // todo: apply thrust to parent
-      //this.acc = this.thrust.clone().rotate(this.rotation);
-      //this.parent.acc.add(this.thrust.clone().rotate(this.rotation));
-  
+      
       // keep emitter pointing correctly
       const offset = this.emitterOffset.rotate(this.rotation).add(this.pos).rotate(this.parent.rotation);
       this.emitter.pos = this.parent.pos.clone().add(offset);
@@ -151,6 +147,7 @@ export class Thruster extends ex.Actor implements Startable {
       this.emitter.maxAngle = this.emitter.rotation + 0.2;
       this.emitter.vel = this.vel;
     } else if (this.isDragging){
+      
       if (engine.input.pointers.primary.isDragging) {
         const mouse = engine.input.pointers.primary.lastPagePos;
         const center = mouse.add(new Vector(this.getWidth()/-2, this.getHeight()/-2));
@@ -160,7 +157,9 @@ export class Thruster extends ex.Actor implements Startable {
         }
         this.updateAttachment(attachmentVector);
       } else {
+        /*engine.input.pointers.primary.update();
         this.isDragging = false;
+        console.log('! engine.isDragging');*/
       }
     }
   }

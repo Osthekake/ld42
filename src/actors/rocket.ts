@@ -3,11 +3,11 @@ import { Textures } from '../resources';
 import { Line, Vector } from 'excalibur';
 import { SpeechBubble } from './speechbubble';
 
-export class Player extends ex.Actor {
+export class Rocket extends ex.Actor {
 
   emitter: ex.ParticleEmitter;
   speech: SpeechBubble;
-  readonly emitterOffset = new Vector(60, 0);
+  readonly emitterOffset = new Vector(50, 0);
   positionGoal: Vector = new Vector(200, 200);
   attitudeGoal: number;
 
@@ -17,7 +17,7 @@ export class Player extends ex.Actor {
 
   constructor() {
     super(100, 100, 110, 50);
-    this.scale.setTo(0.1, 0.1);
+    this.scale.setTo(0.3, 0.3);
     this.addDrawing(Textures.Rocket);
     this.collisionType = ex.CollisionType.Active;
   }
@@ -53,7 +53,7 @@ export class Player extends ex.Actor {
     // and move with the parent
     engine.add(this.emitter);
 
-    this.speech = new SpeechBubble('Hello in a bubble');
+    this.speech = new SpeechBubble('You win!', () => {});
     engine.add(this.speech);
   }
 
@@ -105,8 +105,8 @@ export class Player extends ex.Actor {
     if (this.pos) {
       this.speech.setParentPos(this.pos);
       this.speech.flip = this.pos.x > 1000;
-      const attitudeDeg = this.angularAbs(this.rotation) * 180/Math.PI;
-      this.speech.text = `Attitude: ${attitudeDeg.toFixed(2)}°`;
+      //const attitudeDeg = this.angularAbs(this.rotation) * 180/Math.PI;
+      //this.speech.text = `Attitude: ${attitudeDeg.toFixed(2)}°`;
     }
   }
 }

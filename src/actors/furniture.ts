@@ -58,7 +58,9 @@ export class Furniture extends ex.Actor implements Startable {
   stop(): void {
     this.isRunning = false;
     this.thrusters.forEach((child:any) => {
-      child.stop()
+      if(child.isRunning){
+        child.stop()
+      }
     });
   }
 
@@ -68,9 +70,9 @@ export class Furniture extends ex.Actor implements Startable {
       setTimeout(() => {
         this.stop();
         this.kill();
-        console.log('gone')
+        
       }, 1000);
-      console.log('in goal!')
+      
     }
   }
 }

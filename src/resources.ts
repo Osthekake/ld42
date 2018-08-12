@@ -26,5 +26,12 @@ export const Levels:  {[key: string]: LevelData} = {
     Level3: require('./levels/level3.json'),
     Level4: require('./levels/level4.json'),
     Level5: require('./levels/level5.json'),
+    Level6: require('./levels/level6.json'),
+    Level7: require('./levels/level7.json'),
+    Done: require('./levels/level8.json'),
+}
+
+export const Sounds = {
+    Burn: new ex.Sound(require('./sounds/burn.wav')),
 }
 

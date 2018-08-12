@@ -1,15 +1,25 @@
 import * as ex from 'excalibur';
 import { Level } from './levels/level';
-import { Textures, Levels } from './resources';
+import { Textures, Levels, Sounds } from './resources';
 import { Physics, CollisionResolutionStrategy } from 'excalibur';
+import { HelpLevel } from './levels/helplevel';
+import { WinLevel } from './levels/winLevel';
 
 class Game extends ex.Engine {
   constructor() {
     super({ width: 1200, height: 800, displayMode: ex.DisplayMode.Fixed });
     for (let key in Levels) {
       let value = Levels[key];
-      const level = new Level(value);
-      this.add(key, level);
+      if (key === "Level1") {
+        const level = new HelpLevel(value);
+        this.add(key, level);
+      } else if (key === "Done") {
+        const level = new WinLevel(value);
+        this.add(key, level);
+      } else {
+        const level = new Level(value);
+        this.add(key, level);
+      }
     }
   }
   
@@ -25,11 +35,14 @@ Physics.allowRigidBodyRotation = true;*/
 const game = new Game();
 
 let loader = new ex.Loader();
+loader.logo = require('./images/title.png');
 for (let key in Textures) {
   loader.addResource(Textures[key]);
 }
+for (let key in Sounds) {
+  loader.addResource(Sounds[key]);
+}
 
 game.start(loader).then(() => {
-  game.goToScene('Level1');
-  
+  game.goToScene('Done');
 });

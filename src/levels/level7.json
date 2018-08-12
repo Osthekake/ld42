@@ -24,7 +24,7 @@
     ],
     "furniture": [
         {
-            "texture": "TV",
+            "texture": "Sofa",
             "x": 6,
             "y": 14,
             "boosters": [{
@@ -33,7 +33,7 @@
             }]
         },
         {
-            "texture": "TV",
+            "texture": "Lamp",
             "x": 18,
             "y": 14,
             "boosters": [{
@@ -47,5 +47,5 @@
         "y": 3, 
         "scale": 1
     },
-    "next": "Level5"
+    "next": "Done"
 }

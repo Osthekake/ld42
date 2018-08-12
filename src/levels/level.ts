@@ -1,7 +1,7 @@
 import * as ex from 'excalibur';
-import { Color, Actor, Vector, Timer } from 'excalibur';
+import { Color, Actor, Vector, Timer, Sound } from 'excalibur';
 import { Tile } from '../actors/tile';
-import { Textures } from '../resources';
+import { Textures, Sounds } from '../resources';
 import { Furniture } from '../actors/furniture';
 import { Thruster, Attachment } from '../actors/thruster';
 import { StartButton } from '../actors/ui/startbutton';
@@ -41,12 +41,14 @@ export class Level extends ex.Scene implements Startable{
   isRunning: boolean = false;
 
   private tiles: Tile[] = [];
-  private furniture: Furniture[] = [];
-  private goal: Goal;
-  private startButton: StartButton;
+  protected furniture: Furniture[] = [];
+  protected goal: Goal;
+  protected startButton: StartButton;
+  private sound: Sound;
 
   constructor(public levelData: LevelData) {
     super();
+    this.sound = Sounds.Burn;
   }
   
   public onInitialize(engine: ex.Engine) {
@@ -68,7 +70,7 @@ export class Level extends ex.Scene implements Startable{
       this.add(t);
     });
 
-    this.loadFurniture();
+    // this.loadFurniture();
 
     // UI
     this.startButton = new StartButton(this);
@@ -118,23 +120,28 @@ export class Level extends ex.Scene implements Startable{
   start(): void {
     this.furniture.forEach(element => element.start()); 
     this.isRunning = true;
+    this.sound.play();
   }
 
   stop(): void {
     this.furniture.forEach(element => element.stop());
     this.isRunning = false; 
+    this.sound.stop();
   }
 
   private endTimer: Timer;
 
+  completed(engine){
+    setTimeout(() => {
+      engine.goToScene(this.levelData.next);
+    }, 1500);
+  }
+
   update(engine, delta){
     super.update(engine, delta)
     if (!this.endTimer && this.furniture.every(f => f.isInGoal)){
-      console.log('level complete');
-      setTimeout(() => {
-        console.log('next level');
-        engine.goToScene(this.levelData.next);
-      }, 1500);
+      
+      this.completed(engine);
     }
   }
 }

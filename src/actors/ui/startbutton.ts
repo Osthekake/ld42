@@ -45,21 +45,28 @@ export class StartButton extends UIActor implements Startable{
     }
   }
 
+
+  private stopper;
   start(): void {
     this.isRunning = true;
     this.isReset = false;
     this.label.text = 'Cut engines';
     this.level.start();
+    this.stopper = setTimeout(() => this.stop(), 5500);
   }
 
   stop(): void {
+    if (this.stopper) {
+      clearTimeout(this.stopper);
+    }
+    this.stopper = undefined;
     this.isRunning = false;
     this.label.text = 'Reset level';
     this.level.stop();
   }
 
   reset(){
-      this.isReset = true;
+    this.isReset = true;
     this.label.text = 'Ignition!';
     this.level.reinitializeFurniture();
   }

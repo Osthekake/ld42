@@ -9,7 +9,7 @@ export class SpeechBubble extends ex.Actor {
   private animation: ex.Animation;
   private parentPos: Vector;
 
-  constructor(text: string, public flip: boolean = false) {
+  constructor(text: string, private doneFn?: () => void, public flip: boolean = false) {
     super();
     
     this.collisionType = ex.CollisionType.PreventCollision;
@@ -26,6 +26,9 @@ export class SpeechBubble extends ex.Actor {
   set text(text: string) {
     this.label.text = text;
   }
+  get text() {
+    return this.label.text;
+  }
 
   onInitialize(engine: Engine) {
     const spriteSheet = new SpriteSheet(Textures.SpeechBubble, 1, 1, 1263, 903);
@@ -35,8 +38,15 @@ export class SpeechBubble extends ex.Actor {
     this.setHeight(Textures.SpeechBubble.height);
     this.setWidth(Textures.SpeechBubble.width);
     this.animation.scale.setTo(0.4, 0.3);
-    this.z = 100;
+    //this.z = 100;
     this.scale.setTo(0.4, 0.3);
+
+    if (this.doneFn){
+      setTimeout(() => {
+        this.doneFn();
+        this.kill();
+      }, 5000);
+    }
   }
 
   setParentPos(parentPos: Vector) {
