@@ -35,7 +35,7 @@ Physics.allowRigidBodyRotation = true;*/
 const game = new Game();
 
 let loader = new ex.Loader();
-loader.logo = require('./images/title.png');
+//loader.logo = require('./images/title.png');
 for (let key in Textures) {
   loader.addResource(Textures[key]);
 }
