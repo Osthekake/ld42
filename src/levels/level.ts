@@ -1,5 +1,5 @@
 import * as ex from 'excalibur';
-import { Color, Actor, Vector, Timer, Sound } from 'excalibur';
+import { Color, Actor, Vector, Timer, Sound, Engine } from 'excalibur';
 import { Tile } from '../actors/tile';
 import { Textures, Sounds } from '../resources';
 import { Furniture } from '../actors/furniture';
@@ -46,8 +46,8 @@ export class Level extends ex.Scene implements Startable{
   protected startButton: StartButton;
   private sound: Sound;
 
-  constructor(public levelData: LevelData) {
-    super();
+  constructor(public levelData: LevelData, engine: Engine) {
+    super(engine);
     this.sound = Sounds.Burn;
   }
   

@@ -31,7 +31,7 @@ export class SpeechBubble extends ex.Actor {
   }
 
   onInitialize(engine: Engine) {
-    const spriteSheet = new SpriteSheet(Textures.SpeechBubble, 1, 1, 1263, 903);
+    const spriteSheet = new SpriteSheet(Textures.SpeechBubble, 1, 1, Textures.SpeechBubble.width, Textures.SpeechBubble.height);
     this.animation = spriteSheet.getAnimationForAll(engine, 125);
     
     this.addDrawing('idle', this.animation);

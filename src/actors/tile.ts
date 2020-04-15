@@ -1,7 +1,5 @@
 import * as ex from 'excalibur';
-import { Color, Engine, SpriteSheet } from 'excalibur';
-import { Textures } from '../resources';
-
+import { Color, SpriteSheet } from 'excalibur';
 export class Tile extends ex.Actor {
 
     topLeft: ex.Sprite;
@@ -14,7 +12,7 @@ export class Tile extends ex.Actor {
     bottomMiddle: ex.Sprite;
     bottomRight: ex.Sprite;
 
-    constructor(x, y, private width, private height, private tileSet: ex.Texture) {
+    constructor(x, y, width, height, public tileSet: ex.Texture) {
         super(x, y, width, height, Color.DarkGray);
 
         this.friction = 1;

@@ -1,7 +1,7 @@
 import * as ex from 'excalibur';
 import { Level } from './levels/level';
 import { Textures, Levels, Sounds } from './resources';
-import { Physics, CollisionResolutionStrategy } from 'excalibur';
+import { Physics } from 'excalibur';
 import { HelpLevel } from './levels/helplevel';
 import { WinLevel } from './levels/winLevel';
 
@@ -11,13 +11,13 @@ class Game extends ex.Engine {
     for (let key in Levels) {
       let value = Levels[key];
       if (key === "Level1") {
-        const level = new HelpLevel(value);
+        const level = new HelpLevel(value, this);
         this.add(key, level);
       } else if (key === "Done") {
-        const level = new WinLevel(value);
+        const level = new WinLevel(value, this);
         this.add(key, level);
       } else {
-        const level = new Level(value);
+        const level = new Level(value, this);
         this.add(key, level);
       }
     }
