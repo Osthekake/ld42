@@ -28,6 +28,9 @@ class Game extends ex.Engine {
   }
 }
 
+ex.CollisionGroupManager.create("furniture");
+ex.CollisionGroupManager.create("walls");
+
 Physics.useRigidBodyPhysics();/*
 Physics.collisionResolutionStrategy = CollisionResolutionStrategy.RigidBody;
 Physics.enabled = true;
@@ -44,5 +47,5 @@ for (let key in Sounds) {
 }
 
 game.start(loader).then(() => {
-  game.goToScene('Level1');
+  game.goToScene('Level4');
 });

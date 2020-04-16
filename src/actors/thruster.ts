@@ -18,7 +18,7 @@ export class Thruster extends ex.Actor implements Startable {
   constructor(private texture: ex.Texture, private attachment: Attachment = 'linear') {
     super(50, 0, texture.width, texture.height);
     
-    this.collisionType = ex.CollisionType.Active;
+    this.body.collider.type = ex.CollisionType.Active;
     
     switch (this.attachment) {
       case 'linear': {
@@ -53,7 +53,7 @@ export class Thruster extends ex.Actor implements Startable {
       }
     }
     // console.log('placement radius', placement.magnitude());
-    // console.log(this.pos, this.getWidth(), this.getHeight());
+    // console.log(this.pos, this.width, this.height);
   }
 
   onInitialize(engine: ex.Engine) {
@@ -150,7 +150,7 @@ export class Thruster extends ex.Actor implements Startable {
       
       if (engine.input.pointers.primary.isDragging) {
         const mouse = engine.input.pointers.primary.lastPagePos;
-        const center = mouse.add(new Vector(this.getWidth()/-2, this.getHeight()/-2));
+        const center = mouse.add(new Vector(this.width/-2, this.height/-2));
         let attachmentVector = vectorDifference(center, this.parent.pos);
         if (attachmentVector.magnitude() > MAX_ATTACHMENT_RADIUS) {
           attachmentVector = attachmentVector.normalize().scale(MAX_ATTACHMENT_RADIUS);

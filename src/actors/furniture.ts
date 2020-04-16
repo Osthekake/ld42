@@ -13,22 +13,21 @@ export class Furniture extends ex.Actor implements Startable {
   constructor(x: number, y: number, texture: ex.Texture) {
     super(x, y, texture.width * 0.8, texture.height * 0.8);
     this.addDrawing(texture);
-    this.collisionType = ex.CollisionType.Active;
+    this.body.collider.type = ex.CollisionType.Active;
   }
 
   onInitialize(engine: ex.Engine) {
     this.color = new ex.Color(255, 255, 255);
-    this.friction = 1;
-    this.mass = 1;
+    this.body.collider.friction = 1;
+    this.body.collider.mass = 1;
     this.enableCapturePointer = false;
-    this.addCollisionGroup('furniture');
-    this.addCollisionGroup('walls');
+    // this.body.collider.group = ex.CollisionGroupManager.groupByName("furniture");
   }
   
   onPostUpdate(engine: ex.Engine, delta: number) {
     super.onPostUpdate(engine, delta);
-    this.torque = 0;
-    this.acc = Vector.Zero;
+    this.body.torque = 0;
+    this.body.acc = Vector.Zero;
   }
 
   public update(engine: ex.Engine, delta: number) {
@@ -36,8 +35,8 @@ export class Furniture extends ex.Actor implements Startable {
     this.acc = this.gravity.clone();
     if (this.isRunning) {
       this.thrusters.forEach(thruster => {
-        this.acc = this.acc.add(thruster.getThrust());
-        this.torque += thruster.getTorque();
+        this.body.acc = this.body.acc.add(thruster.getThrust());
+        this.body.torque += thruster.getTorque();
       });
       //console.log(this.acc, this.torque);
     }

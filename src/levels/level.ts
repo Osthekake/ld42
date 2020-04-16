@@ -56,10 +56,9 @@ export class Level extends ex.Scene implements Startable{
     const height = engine.canvasHeight;
     
     const background = new Actor({
-      x: width/2,
-      y: height/2,
-      collisionType: ex.CollisionType.PreventCollision
+      pos: new Vector(width/2, height/2)
     });
+    background.body.collider.type = ex.CollisionType.PreventCollision
     background.addDrawing(Textures.Background);
     this.add(background);
 
