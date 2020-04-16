@@ -2,13 +2,12 @@ import * as ex from 'excalibur';
 import { Startable } from '../actors/startable';
 import { LevelData, Level } from './level';
 import { SpeechBubble } from '../actors/speechbubble';
-import { Vector } from 'excalibur';
-
+import { Engine } from 'excalibur';
 
 export class HelpLevel extends Level implements Startable{
 
-  constructor(public levelData: LevelData) {
-    super(levelData);
+  constructor(public levelData: LevelData, engine: Engine) {
+    super(levelData, engine);
   }
   
   public onInitialize(engine: ex.Engine) {

@@ -1,17 +1,19 @@
 import * as ex from 'excalibur';
 import { Textures } from '../resources';
+import { Vector } from 'excalibur';
 
 export class Goal extends ex.Actor {
     constructor(x: number, y: number, scale: ex.Vector) {
         super({
-            x, y, scale,
-            collisionType: ex.CollisionType.Passive,
+            pos: new Vector(x, y),
+            scale,
         });
+        this.body.collider.type = ex.CollisionType.Passive
         const tex = Textures.Goal;
         this.addDrawing(tex);
-        this.addCollisionGroup('furniture');
-        this.setWidth(tex.width/2);
-        this.setHeight(tex.height/2);
+        this.body.collider.group = ex.CollisionGroupManager.groupByName("furniture");
+        this.width = tex.width/2;
+        this.height = tex.height/2;
     }
 
     onInitialize(engine: ex.Engine) {

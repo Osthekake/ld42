@@ -1,5 +1,5 @@
 import * as ex from 'excalibur';
-import { UIActor } from 'excalibur';
+import { UIActor, Vector } from 'excalibur';
 import { Level } from '../../levels/level';
 import { Startable } from '../startable';
 import { Textures } from '../../resources';
@@ -10,18 +10,14 @@ export class StartButton extends UIActor implements Startable{
   label: ex.Label;
     
   constructor(private level: Level){
-    super({
-      x: 1025,
-      y: 625,
-    });
+    super({pos: new Vector(1025, 625)});
     const tex = Textures.Button;
     this.addDrawing(tex);
-    this.setWidth(tex.width);
-    this.setHeight(tex.height);
+    this.width = tex.width;
+    this.height = tex.height;
         
     this.label = new ex.Label({
-      x: tex.width/2,
-      y: tex.height * 0.55,
+      pos: new Vector(tex.width/2, tex.height * 0.55),
       text: 'Ignition!',
       fontFamily: 'Arial',
       fontSize: 20,

@@ -1,5 +1,5 @@
 import * as ex from 'excalibur';
-import { Color, Actor, Vector, Timer, Sound } from 'excalibur';
+import { Color, Actor, Vector, Timer, Sound, Engine } from 'excalibur';
 import { Tile } from '../actors/tile';
 import { Textures, Sounds } from '../resources';
 import { Furniture } from '../actors/furniture';
@@ -46,8 +46,8 @@ export class Level extends ex.Scene implements Startable{
   protected startButton: StartButton;
   private sound: Sound;
 
-  constructor(public levelData: LevelData) {
-    super();
+  constructor(public levelData: LevelData, engine: Engine) {
+    super(engine);
     this.sound = Sounds.Burn;
   }
   
@@ -56,10 +56,9 @@ export class Level extends ex.Scene implements Startable{
     const height = engine.canvasHeight;
     
     const background = new Actor({
-      x: width/2,
-      y: height/2,
-      collisionType: ex.CollisionType.PreventCollision
+      pos: new Vector(width/2, height/2)
     });
+    background.body.collider.type = ex.CollisionType.PreventCollision
     background.addDrawing(Textures.Background);
     this.add(background);
 

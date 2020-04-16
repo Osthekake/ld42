@@ -19,7 +19,7 @@ export class Rocket extends ex.Actor {
     super(100, 100, 110, 50);
     this.scale.setTo(0.3, 0.3);
     this.addDrawing(Textures.Rocket);
-    this.collisionType = ex.CollisionType.Active;
+    this.body.collider.type = ex.CollisionType.Active;
   }
 
   onInitialize(engine: ex.Engine) {

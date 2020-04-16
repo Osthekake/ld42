@@ -12,7 +12,7 @@ export class SpeechBubble extends ex.Actor {
   constructor(text: string, private doneFn?: () => void, public flip: boolean = false) {
     super();
     
-    this.collisionType = ex.CollisionType.PreventCollision;
+    this.body.collider.type = ex.CollisionType.PreventCollision;
     
     this.label = new ex.Label(text, 0, 0, 'Arial');
     // properties
@@ -31,12 +31,12 @@ export class SpeechBubble extends ex.Actor {
   }
 
   onInitialize(engine: Engine) {
-    const spriteSheet = new SpriteSheet(Textures.SpeechBubble, 1, 1, 1263, 903);
+    const spriteSheet = new SpriteSheet(Textures.SpeechBubble, 1, 1, Textures.SpeechBubble.width, Textures.SpeechBubble.height);
     this.animation = spriteSheet.getAnimationForAll(engine, 125);
     
     this.addDrawing('idle', this.animation);
-    this.setHeight(Textures.SpeechBubble.height);
-    this.setWidth(Textures.SpeechBubble.width);
+    this.height = Textures.SpeechBubble.height;
+    this.width = Textures.SpeechBubble.width;
     this.animation.scale.setTo(0.4, 0.3);
     //this.z = 100;
     this.scale.setTo(0.4, 0.3);
@@ -58,9 +58,9 @@ export class SpeechBubble extends ex.Actor {
     this.setDrawing('idle');
     this.animation.flipHorizontal = this.flip;
     if (this.flip) {
-        this.offset = new Vector(-this.getWidth()/2, this.getHeight() / -2);
+        this.offset = new Vector(-this.width/2, this.height / -2);
     } else{
-        this.offset = new Vector(this.getWidth()/2, this.getHeight() / -2);
+        this.offset = new Vector(this.width/2, this.height / -2);
     }
     this.pos = this.parentPos.clone().add(this.offset);
   }
