@@ -37,5 +37,5 @@ jobs:
       uses: Cecilapp/GitHub-Pages-deploy@master
       env:
         EMAIL: osthekake@gmail.com
-        GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        GH_TOKEN: ${{ secrets.AccessToken }}
         BUILD_DIR: dist
