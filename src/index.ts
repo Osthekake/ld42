@@ -47,5 +47,5 @@ for (let key in Sounds) {
 }
 
 game.start(loader).then(() => {
-  game.goToScene('Level4');
+  game.goToScene('Level1');
 });
