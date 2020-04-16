@@ -1,6 +1,5 @@
 import * as ex from 'excalibur';
 import { Vector, SpriteSheet } from 'excalibur';
-import { vectorDifference } from '../util/util';
 import { Startable } from './startable';
 
 export type Attachment = 'linear' | 'radial_clockwise' | 'radial_counterClockwise';
@@ -151,7 +150,7 @@ export class Thruster extends ex.Actor implements Startable {
       if (engine.input.pointers.primary.isDragging) {
         const mouse = engine.input.pointers.primary.lastPagePos;
         const center = mouse.add(new Vector(this.width/-2, this.height/-2));
-        let attachmentVector = vectorDifference(center, this.parent.pos);
+        let attachmentVector = center.sub(this.parent.pos);
         if (attachmentVector.magnitude() > MAX_ATTACHMENT_RADIUS) {
           attachmentVector = attachmentVector.normalize().scale(MAX_ATTACHMENT_RADIUS);
         }
